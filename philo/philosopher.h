@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 14:22:06 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/06/23 22:07:40 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/06/26 11:10:30 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,27 @@ typedef struct s_data {
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	p_lock;
 	int 			someone_died;
+	pthread_mutex_t	died;
 	t_philo			*philos;
+	int				strt_time;
 }	t_data;
 
 typedef struct s_philo {
-	int 			*id;
-	pthread_t		*thread;
-	pthread_mutex_t *left_fork;
-	pthread_mutex_t *right_fork;
+	int 			id;
+	pthread_t		thread;
+	pthread_mutex_t left_fork;
+	pthread_mutex_t right_fork;
 	long 			last_meal_time;
 	int				meals_eaten;
-	t_data			data;
+	int				death_himself;
+	t_data			*data;
 }		t_philo;
 
 int		ft_atoi(char *s);
 void	ft_putstrfd(char *s, int fd);
 size_t	ft_strlen(char *str);
 int 	ft_isnum(char c);
-void    life(t_philo  *ctx);
+void    life(t_data  *ctx);
+long 	present_time(void);
 
 #endif

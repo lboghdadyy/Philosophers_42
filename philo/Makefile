@@ -1,4 +1,4 @@
-CC = cc -Wall -Wextra -Werror 
+CC = cc -fsanitize=address -g3
 SRC = philosopher.c \
 	utils/ft_atoi.c \
 	utils/ft_putstrfd.c \
