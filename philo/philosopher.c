@@ -14,6 +14,21 @@ int	check_number(char *string)
 	return (0);
 }
 
+void destroy_mutexes(t_data *data, int up_to_index)
+{
+	int	i;
+	
+	i = 0;
+	pthread_mutex_destroy(&data->p_lock);
+	pthread_mutex_destroy(&data->died);
+	while (i < up_to_index)
+	{
+		pthread_mutex_destroy(&data->forks[i]);
+		pthread_mutex_destroy(&data->philos[i].died);
+		i++;
+	}
+}
+
 int	check_arguments(t_data *data, int ac, char **av)
 {
 	int	j;
@@ -27,10 +42,8 @@ int	check_arguments(t_data *data, int ac, char **av)
 			return (ft_putstrfd("please enter valid numbers\n", 2), 1);
 		j++;
 	}
-	data->b_philos = ft_atoi(av[1]);
-	data->t_die = ft_atoi(av[2]);
-	data->t_eat = ft_atoi(av[3]);
-	data->t_sleep = ft_atoi(av[4]);
+	(1) && (data->b_philos = ft_atoi(av[1]), data->t_die = ft_atoi(av[2]));
+	(1) && (data->t_eat = ft_atoi(av[3]), data->t_sleep = ft_atoi(av[4]));
 	if (ac == 6)
 		data->m_eat = ft_atoi(av[5]);
 	else
@@ -43,15 +56,22 @@ int	check_arguments(t_data *data, int ac, char **av)
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->b_philos);
 	if (!data->philos || !data->forks)
 		return (ft_putstrfd("malloc failed\n", 2), 1);
-	pthread_mutex_init(&data->p_lock, NULL);
-	pthread_mutex_init(&data->died, NULL);
-	for (j = 0; j < data->b_philos; j++)
+	if (pthread_mutex_init(&data->p_lock, NULL) != 0)
+		return (free(data->philos), free(data->forks), ft_putstrfd("Error : pthread_mutex_init\n", 2), 1);
+	if (pthread_mutex_init(&data->died, NULL))
+		return (free(data->forks), free(data->philos), pthread_mutex_destroy(&data->p_lock), ft_putstrfd("Error : pthread_mutex_init\n", 2), 1);
+	j = 0;
+	while (j < data->b_philos)
 	{
 		data->philos[j].id = j + 1;
 		data->philos[j].data = data;
+		data->philos[j].death_himself = 0;
+		data->philos[j].meals_eaten = 0;
 		pthread_mutex_init(&data->forks[j], NULL);
+		pthread_mutex_init(&data->philos[j].died, NULL);
 		data->philos[j].left_fork = data->forks + j;
 		data->philos[j].right_fork = data->forks + (j + 1) % data->b_philos;
+		j++;
 	}
 	return (0);
 }

@@ -4,7 +4,8 @@ SRC = philosopher.c \
 	utils/ft_putstrfd.c \
 	utils/ft_strlen.c \
 	utils/ft_isnum.c \
-	philos.c
+	philos.c \
+	clean_up.c
 RM=rm -rf
 OBJ = $(SRC:.c=.o)
 NAME = philosopher
