@@ -1,18 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isnum.c                                         :+:      :+:    :+:   */
+/*   ft_usleep.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/03 18:32:54 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/07/03 18:33:13 by sbaghdad         ###   ########.fr       */
+/*   Created: 2025/07/05 10:04:23 by sbaghdad          #+#    #+#             */
+/*   Updated: 2025/07/05 10:04:40 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosopher.h"
 
-int	ft_isnum(char c)
+void	ft_usleep(long time, t_data *data)
 {
-	return (c >= '0' && c <= '9');
+	long	start;
+
+	start = present_time();
+	while (check_death(data) && present_time() - start < time)
+		usleep(100);
+}
+
+void	ft_sleep(t_philo *philo)
+{
+	print_action(philo, "is sleeping");
+	ft_usleep(philo->data->t_sleep, philo->data);
 }
