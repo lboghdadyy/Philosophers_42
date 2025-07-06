@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 10:07:21 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/07/05 10:53:51 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/07/06 19:10:39 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	destroy_mutexes(t_data *data, int up_to_index)
 	int	i;
 
 	i = 0;
-	pthread_mutex_destroy(&data->p_lock);
+	pthread_mutex_destroy(&data->p_l);
 	pthread_mutex_destroy(&data->died);
 	while (i < up_to_index)
 	{
@@ -61,13 +61,13 @@ int	init_data(t_data *data, int ac, char **av)
 {
 	if (check_args(ac, av))
 		return (1);
-	(1) && (data->b_philos = ft_atoi(av[1]), data->t_die = ft_atoi(av[2]));
+	(1) && (data->n_ph = ft_atoi(av[1]), data->t_die = ft_atoi(av[2]));
 	(1) && (data->t_eat = ft_atoi(av[3]), data->t_sleep = ft_atoi(av[4]));
 	if (ac == 6)
 		data->m_eat = ft_atoi(av[5]);
 	else
 		data->m_eat = -1;
-	if (data->b_philos <= 0 || data->t_die <= 0 \
+	if (data->n_ph <= 0 || data->t_die <= 0 \
 		|| data->t_eat <= 0 || data->t_sleep <= 0 || data->m_eat == 0)
 		return (ft_putstrfd("arguments must be greater than zero\n", 2), 1);
 	data->someone_died = 0;

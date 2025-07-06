@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 10:20:01 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/07/05 10:53:02 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/07/06 19:10:39 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	init_philos(t_data *data)
 	int	j;
 
 	j = 0;
-	while (j < data->b_philos)
+	while (j < data->n_ph)
 	{
 		data->philos[j].id = j + 1;
 		data->philos[j].data = data;
@@ -48,7 +48,7 @@ int	init_philos(t_data *data)
 			return (clean_philos(data, j), 1);
 		}
 		data->philos[j].left_fork = data->forks + j;
-		data->philos[j].right_fork = data->forks + (j + 1) % data->b_philos;
+		data->philos[j].right_fork = data->forks + (j + 1) % data->n_ph;
 		j++;
 	}
 	return (0);
@@ -56,20 +56,20 @@ int	init_philos(t_data *data)
 
 int	alloc_philos(t_data *data)
 {
-	data->philos = malloc(sizeof(t_philo) * data->b_philos);
+	data->philos = malloc(sizeof(t_philo) * data->n_ph);
 	if (!data->philos)
 		return (ft_putstrfd("malloc failed\n", 2), 1);
-	data->forks = malloc(sizeof(pthread_mutex_t) * data->b_philos);
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->n_ph);
 	if (!data->forks)
 		return (ft_putstrfd("malloc failed\n", 2), free(data->philos), 1);
-	if (pthread_mutex_init(&data->p_lock, NULL) != 0)
+	if (pthread_mutex_init(&data->p_l, NULL) != 0)
 	{
 		ft_putstrfd("pthread_mutex_init failed\n", 2);
 		return (free(data->philos), free(data->forks), 1);
 	}
 	if (pthread_mutex_init(&data->died, NULL))
 	{
-		pthread_mutex_destroy(&data->p_lock);
+		pthread_mutex_destroy(&data->p_l);
 		ft_putstrfd("pthread_mutex_init failed\n", 2);
 		return (free(data->forks), free(data->philos), 1);
 	}

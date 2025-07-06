@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 10:00:59 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/07/05 10:05:47 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/07/06 19:10:06 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,15 @@ int	check_death(t_data *data)
 
 void	print_action(t_philo *philo, char *msg)
 {
-	pthread_mutex_lock(&philo->data->p_lock);
+	pthread_mutex_lock(&philo->data->p_l);
 	if (!check_death(philo->data))
 	{
-		pthread_mutex_unlock(&philo->data->p_lock);
+		pthread_mutex_unlock(&philo->data->p_l);
 		return ;
 	}
 	printf("%ld %d %s\n", present_time() - philo->data->strt_time, \
 	philo->id, msg);
-	pthread_mutex_unlock(&philo->data->p_lock);
+	pthread_mutex_unlock(&philo->data->p_l);
 }
 
 long	present_time(void)

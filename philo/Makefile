@@ -1,4 +1,5 @@
 CC = cc -fsanitize=thread -g3
+
 SRC = philosopher.c \
 	utils/ft_atoi.c \
 	utils/ft_putstrfd.c \
@@ -9,10 +10,15 @@ SRC = philosopher.c \
 	ft_checkdeath.c \
     utils/ft_usleep.c \
 	init_philos.c
+
 RM=rm -rf
+
 OBJ = $(SRC:.c=.o)
+
 NAME = philo
+
 HEADER = philosopher.h
+
 CFLAGS = -Wall -Wextra -Werror
 
 $(NAME) : $(OBJ)
@@ -20,7 +26,7 @@ $(NAME) : $(OBJ)
 
 all : $(NAME)
 
-%.o : %.c $(HEADER)
+%.o : %.c $(HEADER) Makefile
 	$(CC) $(CFLAGS) -c $< -o $@ 
 
 clean :
