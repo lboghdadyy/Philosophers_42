@@ -1,4 +1,4 @@
-CC = cc -fsanitize=thread -g3
+CC = cc -Wall -Wextra -Werror -fsanitize=thread
 
 SRC = philosopher.c \
 	utils/ft_atoi.c \

@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 14:22:06 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/07/06 19:10:39 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/07/07 10:46:45 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_philo {
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	died;
 	long			last_meal_time;
-	int				meals_eaten;
+	int				m_eting;
 	int				death_himself;
 	t_data			*data;
 }		t_philo;
@@ -65,5 +65,8 @@ long	present_time(void);
 int		init_philos(t_data *data);
 int		alloc_philos(t_data *data);
 void	clean_philos(t_data *data, int index);
+int		init(t_data *c);
+int		one_philo(t_philo *philo);
+void	take_forks(t_philo *philo);
 
 #endif

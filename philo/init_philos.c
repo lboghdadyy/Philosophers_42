@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 10:20:01 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/07/06 19:10:39 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/07/07 10:45:38 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	init_philos(t_data *data)
 		data->philos[j].id = j + 1;
 		data->philos[j].data = data;
 		data->philos[j].death_himself = 0;
-		data->philos[j].meals_eaten = 0;
+		data->philos[j].m_eting = 0;
 		if (pthread_mutex_init(&data->forks[j], NULL) != 0)
 		{
 			ft_putstrfd("pthread_mutex_init failed\n", 2);
@@ -72,6 +72,33 @@ int	alloc_philos(t_data *data)
 		pthread_mutex_destroy(&data->p_l);
 		ft_putstrfd("pthread_mutex_init failed\n", 2);
 		return (free(data->forks), free(data->philos), 1);
+	}
+	return (0);
+}
+
+int	init(t_data *c)
+{
+	if (pthread_mutex_init(&c->f, NULL))
+	{
+		(pthread_mutex_destroy(&c->died), pthread_mutex_destroy(&c->p_l));
+		return (clean_philos(c, c->n_ph), free(c->forks), free(c->philos), 1);
+	}
+	if (pthread_mutex_init(&c->last_meal, NULL))
+	{
+		pthread_mutex_destroy(&c->died);
+		(pthread_mutex_destroy(&c->p_l), pthread_mutex_destroy(&c->f));
+		return (clean_philos(c, c->n_ph), free(c->forks), free(c->philos), 1);
+	}
+	return (0);
+}
+
+int	one_philo(t_philo *philo)
+{
+	if (philo->data->n_ph == 1)
+	{
+		print_action(philo, "has taken fork");
+		ft_usleep(philo->data->t_die, philo->data);
+		return (1);
 	}
 	return (0);
 }
