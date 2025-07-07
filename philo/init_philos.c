@@ -6,7 +6,7 @@
 /*   By: sbaghdad <sbaghdad@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 10:20:01 by sbaghdad          #+#    #+#             */
-/*   Updated: 2025/07/07 10:45:38 by sbaghdad         ###   ########.fr       */
+/*   Updated: 2025/07/07 19:53:28 by sbaghdad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ int	one_philo(t_philo *philo)
 	if (philo->data->n_ph == 1)
 	{
 		print_action(philo, "has taken fork");
-		ft_usleep(philo->data->t_die, philo->data);
+		while (!philo->data->someone_died)
+			ft_usleep(50, philo->data);
 		return (1);
 	}
 	return (0);
